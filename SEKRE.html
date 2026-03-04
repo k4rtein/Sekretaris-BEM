@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alur Surat BEM</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fc;--white:#fff;--ink:#0f172a;--sub:#64748b;
+  --border:#e2e8f0;--hover:#f1f5f9;
+  --gold:#d97706;  --gold-bg:#fffbeb; --gold-bd:#fde68a;
+  --blue:#2563eb;  --blue-bg:#eff6ff; --blue-bd:#bfdbfe;
+  --violet:#7c3aed;--violet-bg:#f5f3ff;--violet-bd:#ddd6fe;
+  --teal:#0d9488;  --teal-bg:#f0fdfa; --teal-bd:#99f6e4;
+  --orange:#ea580c;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --slate:#475569; --slate-bg:#f8fafc;--slate-bd:#cbd5e1;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+
+/* ── NAV ── */
+.topnav{
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:0 40px;display:flex;align-items:center;justify-content:space-between;
+  height:56px;position:sticky;top:0;z-index:50;
+}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo{width:30px;height:30px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:800;font-family:'Syne',sans-serif}
+.nav-title{font-weight:600;font-size:14px}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{padding:6px 16px;border-radius:6px;font-size:13px;font-weight:500;color:var(--sub);cursor:pointer;border:none;background:none;transition:all .15s;white-space:nowrap}
+.nav-tab:hover{background:var(--hover);color:var(--ink)}
+.nav-tab.active{background:var(--ink);color:#fff}
+
+/* ── PAGE ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HERO ── */
+.hero{background:var(--white);border-bottom:1px solid var(--border);padding:40px 40px 36px}
+.hero-inner{max-width:640px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--blue);background:var(--blue-bg);padding:4px 10px;border-radius:100px;border:1px solid var(--blue-bd);margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,30px);font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:10px}
+.hero p{font-size:13.5px;color:var(--sub);line-height:1.75;max-width:500px}
+.hero-chips{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.chip{font-size:11.5px;font-weight:500;color:var(--sub);background:var(--hover);border:1px solid var(--border);padding:3px 11px;border-radius:100px}
+
+/* ── LAYOUT ── */
+.layout{display:flex;gap:0;max-width:1060px;margin:0 auto;padding:36px 40px 80px}
+.flow-col{flex:1;min-width:0}
+.flow-label{font-size:10.5px;font-weight:700;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase;margin-bottom:14px}
+
+/* ── STEP ── */
+.step{display:flex;gap:0;opacity:0;animation:up .3s ease forwards}
+.step:nth-child(1){animation-delay:.03s}.step:nth-child(2){animation-delay:.07s}
+.step:nth-child(3){animation-delay:.11s}.step:nth-child(4){animation-delay:.15s}
+.step:nth-child(5){animation-delay:.19s}.step:nth-child(6){animation-delay:.23s}
+.step:nth-child(7){animation-delay:.27s}.step:nth-child(8){animation-delay:.31s}
+.step:nth-child(9){animation-delay:.35s}.step:nth-child(10){animation-delay:.39s}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.step-left{display:flex;flex-direction:column;align-items:center;width:44px;flex-shrink:0}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.step-line{width:2px;flex:1;min-height:16px;background:var(--border);margin:3px 0}
+.step-line.dash{background:repeating-linear-gradient(to bottom,var(--border) 0,var(--border) 4px,transparent 4px,transparent 8px)}
+
+.sc-gold{background:var(--gold)}.sc-blue{background:var(--blue)}
+.sc-violet{background:var(--violet)}.sc-teal{background:var(--teal)}
+.sc-orange{background:var(--orange)}.sc-slate{background:var(--slate)}
+
+/* ── CARD ── */
+.step-body{flex:1;padding:0 0 20px 14px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:box-shadow .15s,border-color .15s;cursor:default}
+.card:hover{box-shadow:0 4px 16px rgba(15,23,42,.06);border-color:#c8d3e0}
+.card.gold  {border-left:3px solid var(--gold)}
+.card.blue  {border-left:3px solid var(--blue)}
+.card.violet{border-left:3px solid var(--violet)}
+.card.teal  {border-left:3px solid var(--teal)}
+.card.orange{border-left:3px solid var(--orange)}
+.card.slate {border-left:3px solid var(--slate)}
+.card.done  {border-left:3px solid var(--teal);background:var(--teal-bg)}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px}
+.card-title{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3}
+.card-role{font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 9px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+.r-gold  {background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd)}
+.r-blue  {background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd)}
+.r-violet{background:var(--violet-bg);color:var(--violet);border:1px solid var(--violet-bd)}
+.r-teal  {background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-bd)}
+.r-orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd)}
+.r-slate {background:var(--slate-bg);color:var(--slate);border:1px solid var(--slate-bd)}
+
+.card-desc{font-size:12.5px;color:var(--sub);line-height:1.7}
+.card-desc strong{color:var(--ink);font-weight:600}
+.card-desc code{background:var(--hover);padding:1px 6px;border-radius:4px;font-size:11px;font-family:monospace;color:var(--blue)}
+
+/* ── SCAN ADDON ── */
+.scan-addon{
+  margin-top:10px;
+  background:var(--slate-bg);border:1px solid var(--slate-bd);
+  border-radius:8px;padding:10px 13px;
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:12px;color:#334155;line-height:1.6;
+}
+.scan-addon strong{color:var(--ink)}
+
+/* ── NOTE ── */
+.note{
+  margin-top:9px;background:var(--orange-bg);border:1px solid var(--orange-bd);
+  border-radius:8px;padding:9px 12px;font-size:12px;color:#9a3412;
+  line-height:1.6;display:flex;gap:8px;
+}
+.note strong{color:#7c2d12}
+
+/* ── SIDEBAR ── */
+.sidebar-col{width:232px;flex-shrink:0;padding-left:24px}
+.info-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;position:sticky;top:72px}
+.ic-title{font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.ic-row{display:flex;gap:8px;font-size:12px;color:var(--sub);padding:5px 0;border-bottom:1px solid #f1f5f9;line-height:1.5}
+.ic-row:last-child{border-bottom:none}
+.ic-row::before{content:'→';color:var(--blue);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* ── LEGEND ── */
+.legend{background:var(--white);border-top:1px solid var(--border);padding:14px 40px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.leg-l{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--sub);text-transform:uppercase;margin-right:4px}
+.leg-i{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--sub)}
+.leg-d{width:9px;height:9px;border-radius:2px}
+
+/* ── FORM FIELDS ── */
+.ff{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--hover);border-radius:7px;border:1px solid var(--border);margin-bottom:7px}
+.ff:last-child{margin-bottom:0}
+.ff-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.ff-lbl{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.ff-sub{font-size:11.5px;color:var(--sub)}
+.pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;border:1.5px solid;display:inline-block;margin-top:5px}
+.p-slate{border-color:var(--slate);color:var(--slate);background:var(--slate-bg)}
+
+@media(max-width:820px){
+  .layout{flex-direction:column;padding:24px 20px 60px}
+  .sidebar-col{width:100%;padding-left:0}
+  .info-card{position:static}
+  .topnav{padding:0 16px}.hero{padding:28px 20px}
+  .legend{padding:12px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-brand">
+    <div class="nav-logo">B</div>
+    <span class="nav-title">SOP Surat Menyurat BEM</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="go('proker',this)">Alur Proker</button>
+    <button class="nav-tab" onclick="go('jalur-lain',this)">Jalur Lain</button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════
+     PAGE 1 — ALUR PROKER
+══════════════════════════════ -->
+<div id="page-proker" class="page active">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Alur Utama</div>
+      <h1>Alur Surat Kegiatan Proker</h1>
+      <p>Digunakan ketika anggota divisi membutuhkan surat untuk keperluan program kerja. Semua surat <strong>wajib hard copy + tanda tangan basah</strong>. Scan PDF hanya sebagai tambahan jika diminta.</p>
+      <div class="hero-chips">
+        <span class="chip">Anggota Divisi</span>
+        <span class="chip">→ Sekre Proker</span>
+        <span class="chip">→ Ketua Divisi</span>
+        <span class="chip">→ Sekre Inti</span>
+        <span class="chip">→ Ketua BEM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="flow-col">
+      <div class="flow-label">Langkah demi langkah</div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-gold">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card gold">
+            <div class="card-top"><div class="card-title">Anggota Divisi Menyampaikan Kebutuhan</div><span class="card-role r-gold">ANGGOTA</span></div>
+            <div class="card-desc">Anggota menyampaikan ke Sekre Proker secara <strong>lisan atau WA</strong> — cukup informasikan jenis surat, tujuan, keperluan, dan deadline. Tidak perlu mengisi form apa pun.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-blue">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card blue">
+            <div class="card-top"><div class="card-title">Sekre Proker Menulis Draft Surat</div><span class="card-role r-blue">SEKRE PROKER</span></div>
+            <div class="card-desc"><strong>Sekre Proker yang menulis draft</strong> — bukan anggota. Menerjemahkan kebutuhan tim menjadi draft surat dengan bahasa formal. Belum pakai format resmi BEM dan belum bernomor.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-orange">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card orange">
+            <div class="card-top"><div class="card-title">ACC Ketua Divisi</div><span class="card-role r-orange">KETUA DIVISI</span></div>
+            <div class="card-desc">Ketua divisi mereview dan menyetujui draft — memastikan keperluan surat valid dan isi sudah sesuai kebutuhan proker sebelum naik ke Sekre Inti.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-blue">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card blue">
+            <div class="card-top"><div class="card-title">Sekre Proker Kirim Draft ke Sekre Inti</div><span class="card-role r-blue">SEKRE PROKER</span></div>
+            <div class="card-desc">Draft dikirim ke Sekre Inti via <strong>WA atau Google Drive</strong> — disertai info deadline dan apakah butuh soft copy (PDF scan) juga.</div>
+            <div class="note">⚠️ <div><strong>Tidak perlu isi Google Form.</strong> Form hanya untuk jalur tanpa Sekre Proker. Sekre Inti langsung mencatat dari draft yang diterima.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-slate">5</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card slate">
+            <div class="card-top"><div class="card-title">Sekre Inti Catat & Format Ulang ke Template Resmi</div><span class="card-role r-slate">SEKRE INTI</span></div>
+            <div class="card-desc">Sekre Inti mencatat di spreadsheet lalu <strong>memformat ulang draft ke template resmi BEM</strong> — perbaiki bahasa, kop surat, dan susunan. Sekre Proker tidak boleh mencetak atau mengedarkan surat resmi sendiri.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-violet">6</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card violet">
+            <div class="card-top"><div class="card-title">ACC Ketua BEM</div><span class="card-role r-violet">KETUA BEM</span></div>
+            <div class="card-desc">Draft dikirim ke Ketua BEM <strong>(via WA, boleh)</strong> untuk persetujuan isi. <strong>ACC ≠ tanda tangan</strong> — ini konfirmasi "isi sudah benar, boleh dicetak." Jika ada koreksi, dikembalikan ke Sekre Inti.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-slate">7</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card slate">
+            <div class="card-top"><div class="card-title">Sekre Inti Cetak Surat Final</div><span class="card-role r-slate">SEKRE INTI</span></div>
+            <div class="card-desc">Baru cetak setelah ACC diterima. Cetak <strong>2 rangkap</strong> — 1 untuk ditandatangani dan diserahkan, 1 untuk arsip Sekre Inti.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-violet">8</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card violet">
+            <div class="card-top"><div class="card-title">Tanda Tangan Basah Ketua BEM</div><span class="card-role r-violet">KETUA BEM</span></div>
+            <div class="card-desc">Ketua BEM <strong>menandatangani langsung di kertas cetak</strong>. Ini adalah tanda tangan formal — berbeda dengan ACC di langkah 6. Tanpa stempel.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-slate">9</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card slate">
+            <div class="card-top"><div class="card-title">Sekre Inti Beri Nomor & Arsip</div><span class="card-role r-slate">SEKRE INTI</span></div>
+            <div class="card-desc">Nomor resmi diberikan: <code>No./BEM-[KAMPUS]/[Bln]/[Thn]</code> — dicatat di arsip fisik dan digital. Sekre Proker tidak berwenang memberi nomor sendiri.</div>
+            <div class="scan-addon">📄 <div><strong>Jika diminta soft copy juga:</strong> scan surat yang sudah ditandatangani (min. 300 dpi) → kirim PDF ke Sekre Proker. Hard copy tetap diserahkan secara fisik.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-teal">✓</div></div>
+        <div class="step-body">
+          <div class="card done">
+            <div class="card-top"><div class="card-title">Surat Diserahkan ke Sekre Proker</div><span class="card-role r-teal">SELESAI</span></div>
+            <div class="card-desc">Surat resmi diserahkan ke Sekre Proker untuk didistribusikan ke pihak tujuan. Sekre Proker wajib melaporkan hasil distribusi ke Sekre Inti.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar-col">
+      <div class="info-card">
+        <div class="ic-title">📌 Siapa Nulis Apa?</div>
+        <div class="ic-row">Anggota → sampaikan <strong>kebutuhan</strong></div>
+        <div class="ic-row">Sekre Proker → tulis <strong>draft</strong></div>
+        <div class="ic-row">Sekre Inti → format ke <strong>template resmi</strong></div>
+        <div class="ic-row">Ketua BEM → <strong>ACC</strong> + <strong>TTD basah</strong></div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">⚡ ACC vs Tanda Tangan</div>
+        <div class="ic-row"><strong>ACC</strong> = setuju isi, sebelum cetak, boleh via WA</div>
+        <div class="ic-row"><strong>TTD</strong> = tanda tangan di kertas cetak final</div>
+        <div class="ic-row">Urutan wajib: ACC → cetak → TTD</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">📎 Soft Copy</div>
+        <div class="ic-row">Hard copy + TTD basah adalah <strong>standar wajib</strong></div>
+        <div class="ic-row">Soft copy = scan dari surat yang sudah ditandatangani</div>
+        <div class="ic-row">Tidak ada e-sign, tidak ada pilihan format</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">🚫 Yang Tidak Boleh</div>
+        <div class="ic-row">Sekre Proker cetak surat resmi sendiri</div>
+        <div class="ic-row">Sekre Proker beri nomor surat sendiri</div>
+        <div class="ic-row">TTD sebelum ACC dari Ketua BEM</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     PAGE 2 — JALUR LAIN
+══════════════════════════════ -->
+<div id="page-jalur-lain" class="page">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag" style="color:var(--violet);background:var(--violet-bg);border-color:var(--violet-bd)">Jalur Alternatif</div>
+      <h1>Jalur Lain & Google Form</h1>
+      <p>Digunakan ketika pemohon tidak memiliki Sekre Proker — pihak luar, anggota personal, atau ketua divisi yang butuh surat mendadak. Google Form dipegang oleh Sekre Inti.</p>
+      <div class="hero-chips">
+        <span class="chip">Pihak Luar Organisasi</span>
+        <span class="chip">Anggota Personal</span>
+        <span class="chip">Ketua Divisi Langsung</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="flow-col">
+      <div class="flow-label">Kapan jalur ini dipakai?</div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-orange">!</div><div class="step-line dash"></div></div>
+        <div class="step-body">
+          <div class="card orange">
+            <div class="card-top"><div class="card-title">Pemohon Tidak Punya Sekre Proker</div><span class="card-role r-orange">KONDISI</span></div>
+            <div class="card-desc">
+              <strong>1. Pihak luar</strong> — mahasiswa non-BEM yang butuh surat rekomendasi, surat keterangan, atau surat dukungan kegiatan.<br><br>
+              <strong>2. Anggota personal</strong> — surat tugas individu atau keperluan yang tidak terikat proker divisi mana pun.<br><br>
+              <strong>3. Ketua divisi langsung</strong> — mendadak butuh surat dan Sekre Proker tidak bisa dihubungi.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-label" style="margin-top:4px">Alur dengan Google Form</div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-gold">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card gold">
+            <div class="card-top"><div class="card-title">Pemohon Isi Google Form</div><span class="card-role r-gold">PEMOHON</span></div>
+            <div class="card-desc">Form dibuat dan dipegang oleh <strong>Sekre Inti</strong> — satu form untuk semua jalur non-proker. Respons masuk otomatis ke spreadsheet Sekre Inti.</div>
+            <div style="margin-top:10px">
+              <div class="ff"><div class="ff-ico">🎯</div><div><div class="ff-lbl">Jenis surat, tujuan, dan keperluan</div></div></div>
+              <div class="ff"><div class="ff-ico">⏰</div><div><div class="ff-lbl">Deadline dibutuhkan</div></div></div>
+              <div class="ff"><div class="ff-ico">📄</div><div><div class="ff-lbl">Butuh soft copy (PDF scan) juga?</div><span class="pill p-slate">Ya / Tidak</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-slate">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card slate">
+            <div class="card-top"><div class="card-title">Sekre Inti Terima & Buat Draft</div><span class="card-role r-slate">SEKRE INTI</span></div>
+            <div class="card-desc">Sekre Inti mendapat notifikasi, mencatat di spreadsheet, lalu <strong>langsung membuat draft</strong> surat menggunakan template resmi BEM — karena tidak ada Sekre Proker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-violet">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card violet">
+            <div class="card-top"><div class="card-title">ACC Ketua BEM</div><span class="card-role r-violet">KETUA BEM</span></div>
+            <div class="card-desc">Draft dikirim ke Ketua BEM via WA untuk persetujuan isi. Sama seperti alur proker: <strong>ACC dulu, baru cetak.</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-slate">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card slate">
+            <div class="card-top"><div class="card-title">Sekre Inti Cetak & Minta TTD Basah</div><span class="card-role r-slate">SEKRE INTI</span></div>
+            <div class="card-desc">Setelah ACC, cetak 2 rangkap lalu minta tanda tangan basah Ketua BEM. Tidak ada stempel.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-slate">5</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="card slate">
+            <div class="card-top"><div class="card-title">Sekre Inti Beri Nomor & Arsip</div><span class="card-role r-slate">SEKRE INTI</span></div>
+            <div class="card-desc">Penomoran resmi dan arsip terpusat seperti biasa.</div>
+            <div class="scan-addon">📄 <div><strong>Jika butuh soft copy:</strong> scan surat yang sudah ditandatangani, kirim PDF ke pemohon.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-circle sc-teal">✓</div></div>
+        <div class="step-body">
+          <div class="card done">
+            <div class="card-top"><div class="card-title">Surat Diserahkan Langsung ke Pemohon</div><span class="card-role r-teal">SELESAI</span></div>
+            <div class="card-desc">Karena tidak ada Sekre Proker, Sekre Inti langsung menyerahkan ke pemohon dan meminta tanda terima.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar-col">
+      <div class="info-card">
+        <div class="ic-title">📋 Google Form</div>
+        <div class="ic-row"><strong>Sekre Inti</strong> yang buat & pegang form</div>
+        <div class="ic-row">Satu form untuk semua jalur non-proker</div>
+        <div class="ic-row">Sekre Proker tidak punya form sendiri</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">🗂️ Bedanya Dua Jalur</div>
+        <div class="ic-row"><strong>Jalur Proker</strong> — draft dari Sekre Proker, kirim langsung, tidak pakai form</div>
+        <div class="ic-row"><strong>Jalur Form</strong> — tidak ada Sekre Proker, isi form, draft dibuat Sekre Inti</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">📎 Soft Copy</div>
+        <div class="ic-row">Cukup jawab <strong>Ya/Tidak</strong> di form</div>
+        <div class="ic-row">Scan dilakukan setelah TTD basah selesai</div>
+        <div class="ic-row">Tidak mengubah alur utama sama sekali</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="leg-l">Peran</span>
+  <div class="leg-i"><div class="leg-d" style="background:var(--gold)"></div>Anggota / Pemohon</div>
+  <div class="leg-i"><div class="leg-d" style="background:var(--blue)"></div>Sekre Proker</div>
+  <div class="leg-i"><div class="leg-d" style="background:var(--orange)"></div>Ketua Divisi</div>
+  <div class="leg-i"><div class="leg-d" style="background:var(--slate)"></div>Sekre Inti</div>
+  <div class="leg-i"><div class="leg-d" style="background:var(--violet)"></div>Ketua BEM</div>
+  <div class="leg-i"><div class="leg-d" style="background:var(--teal)"></div>Selesai</div>
+</div>
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+  document.querySelectorAll('#page-' + id + ' .step').forEach((s, i) => {
+    s.style.animation = 'none';
+    s.offsetHeight;
+    s.style.animation = `up 0.3s ease ${0.03 + i * 0.04}s forwards`;
+    s.style.opacity = '0';
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
